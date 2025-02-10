@@ -9,7 +9,7 @@ function App() {
  const [showSideMenu, setShowSideMenu] = useState(false)
 
  function handleToggleMenu(){
-  setShowSideMenu(!showSideMenu)
+  setShowSideMenu(showSideMenu)
  }
 
   return (
