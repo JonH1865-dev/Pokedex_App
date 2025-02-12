@@ -9,6 +9,8 @@ export default function PokeCard(props) {
     const [loading, setLoading] = useState(false)
     const [skill, setSkill] = useState(null)
     const [loadingSkill, setLoadingSkill] = useState(false)
+    const [pokemonAbility, setPokemonAbility] = useState(null)
+    const [loadingAbility, setLoadingAbility] = useState(false)
 
     const {name, height, abilities, stats, types, moves, sprites} = data || {}
 
@@ -20,6 +22,46 @@ export default function PokeCard(props) {
 
     function capitalizeFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
+    async function fetchAbilityData(ability, abilityUrl){
+        if(loadingAbility || !localStorage || !abilityUrl) {return}
+
+        //check cache for ability
+        let c = {}
+        if (localStorage.getItem('pokemon-abilities')){
+            c = JSON.parse(localStorage.getItem('pokemon-abilities'))
+        }
+
+        if (ability in c) {
+            setSkill(c[ability])
+            console.log('Found ability in cache')
+            return
+        }
+
+        try {
+            setLoadingAbility(true)
+            const res = await fetch(abilityUrl)
+            const abilityData = await res.json()
+            console.log('Fetched move from API', abilityData)
+            const description = abilityData?.flavor_text_entries.filter(val =>
+                val.language.name === "en")[0]?.flavor_text
+
+            const pokemonAbilityData = {
+                name: ability,
+                description
+            }
+            setSkill(pokemonAbilityData)
+            c[ability] = pokemonAbilityData
+            localStorage.setItem('pokemon-abilities', JSON.stringify(c))
+            
+        }catch(err){
+            console.log(err.message)
+        }finally{
+            setLoadingAbility(false)
+        }
+    
+        
     }
 
     async function fetchMoveData(move, moveUrl){
@@ -166,6 +208,19 @@ export default function PokeCard(props) {
                         )
                 })}
                 </div>
+                <h3>Abilities</h3>
+<div className="pokemon-move-grid">
+    {abilities.map((abilityObj, abilityIndex) => (
+        <button 
+            className="button-card pokemon-move"
+            key={abilityIndex}
+            onClick={() => fetchAbilityData(abilityObj?.ability?.name, abilityObj?.ability?.url)}
+        >
+            {capitalizeFirstLetter(abilityObj?.ability?.name.replace(/-/g, ' '))}
+        </button>
+    ))}
+</div>
+
                 <h3>Moves</h3>
 <div className="pokemon-move-grid">
     {moves
