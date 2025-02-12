@@ -6,6 +6,7 @@ export default function SideNav(props){
 
     const [searchValue, setSearchValue] = useState('')
 
+
     const filteredPokemon = pokemonList.filter((ele, eleIndex) => {
         //if full pokedex number includes the current search value, return true
         if ((getFullPokedexNumber(eleIndex)).includes(searchValue)){
@@ -32,6 +33,7 @@ export default function SideNav(props){
             }}/>
             {filteredPokemon.map((pokemon, pokemonIndex) => {
                 const truePokedexNumber = pokemonList.indexOf(pokemon)
+                
                return (
                 <button onClick={() => {
                     setSelectedPokemon(truePokedexNumber),

@@ -18,6 +18,10 @@ export default function PokeCard(props) {
         return true
     })
 
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
     async function fetchMoveData(move, moveUrl){
         if(loadingSkill || !localStorage || !moveUrl) {return}
 
@@ -131,7 +135,7 @@ export default function PokeCard(props) {
         
             <div>
                 <h4>#{getFullPokedexNumber(selectedPokemon)}</h4>
-                <h2>{name}</h2>
+                <h2>{capitalizeFirstLetter(name)}</h2>
             </div>
             <div className='type-container'>
                 {types.map((typeObj, typeIndex) => {
