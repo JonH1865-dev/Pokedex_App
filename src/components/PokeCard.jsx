@@ -43,7 +43,6 @@ export default function PokeCard(props) {
             const moveData = await res.json()
             console.log('Fetched move from API', moveData)
             const description = moveData?.flavor_text_entries.filter(val => 
-                val.version_group.name === "firered-leafgreen" && 
                 val.language.name === "en")[0]?.flavor_text
 
 
@@ -124,11 +123,10 @@ export default function PokeCard(props) {
         </div>
         <div>
             <h6>Description</h6>
-            {skill.description ? (
-                <p>{skill.description.replace(/-/g, ' ')}</p>
-            ) : (
-                <p>Move not available in firered or leafgreen.</p>
-            )}
+            
+                <p>{skill.description}</p>
+            
+            
         </div>
     </Modal>
 )}
@@ -172,11 +170,13 @@ export default function PokeCard(props) {
 <div className="pokemon-move-grid">
     {moves
         ?.slice() // Create a shallow copy
-        .filter(moveObj => 
-            moveObj.version_group_details.some(
-                version => version.version_group.name === "firered-leafgreen"
-            )
-        ) // Filter moves by version name
+        // .filter(moveObj => 
+        //     moveObj.version_group_details.some(
+        //         version => version.version_group.name === "firered-leafgreen" 
+        //         || version.version_group.name === "emerald" 
+        //         || version.version_group.name
+        //     )
+        // ) // Filter moves by version name
         .sort((a, b) => a.move.name.localeCompare(b.move.name)) // Sort alphabetically
         .map((moveObj, moveIndex) => (
             <button 
