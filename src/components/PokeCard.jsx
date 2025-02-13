@@ -13,13 +13,19 @@ export default function PokeCard(props) {
     const [loadingAbility, setLoadingAbility] = useState(false)
     const [type, setType] = useState(null)
 
-    const {name, height, abilities, stats, types, moves, sprites} = data || {}
+    const {name, height, abilities, stats, types, moves, sprites, cries} = data || {}
 
     const imgList = Object.keys(sprites || {}).filter(val => {
         if (!sprites[val]) {return false}
         if (['versions', 'other'].includes(val)) {return false}
         return true
     })
+
+    const playCry = (cryUrl) => {
+        const audio = new Audio(cryUrl)
+        audio.play().catch(error => console.error("Audio playback failed:", error))
+
+    }
 
     function capitalizeFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1)
@@ -42,6 +48,8 @@ export default function PokeCard(props) {
         console.log('the pokemons index:', index )
         return index;  // Return the index (0-based index)
     }
+
+    
 
     async function fetchAbilityData(ability, abilityUrl){
         if(loadingAbility || !localStorage || !abilityUrl) {return}
@@ -310,6 +318,14 @@ export default function PokeCard(props) {
                     )
                 })}
             </div>
+            {/* <div>
+                <h3>Height: {height}</h3>
+            </div> */}
+            <div>
+                <button className="play-cry-button" onClick={() => playCry(cries.latest)}>
+               Click to Hear Cry <i className="fa-solid fa-volume-high"></i>
+                </button>                
+                 </div>
             <div>
                 <h3>Stats</h3>
                 <div className='stats-card'>

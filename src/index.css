@@ -45,6 +45,19 @@ header h1,
   opacity: 0.6;
 }
 
+.play-cry-button {
+  border: none;
+  padding: 0.1rem;
+  box-shadow: none;
+  font-size: 1.5rem;
+}
+
+.play-cry-button:hover {
+  transform: translate(0);
+  box-shadow: 0;
+  opacity: 0.6;
+}
+
 nav {
   padding: 1rem;
   padding-top: 0;
