@@ -429,8 +429,8 @@ button {
     font-family: inherit;
     font-size: inherit;
     font-weight: 500;
-    padding: 0.25rem 1.25rem;
-    border: 1.5px solid var(--border-secondary);
+    padding: 0.rem 1.25rem;
+    border: 2px transparent var(--border-secondary);
     border-radius: var(--border-radius-small);
     box-shadow: 2px 2px 0 0 var(--border-secondary);
     transition-duration: 200ms;

@@ -12,6 +12,7 @@ function App() {
   setShowSideMenu(!showSideMenu)
  }
 
+
   return (
     <>
       <Header handleToggleMenu={handleToggleMenu} />
@@ -20,7 +21,8 @@ function App() {
       selectedPokemon={selectedPokemon} 
       setSelectedPokemon={setSelectedPokemon} 
       handleToggleMenu={handleToggleMenu} />
-      <PokeCard selectedPokemon={selectedPokemon} />
+      <PokeCard selectedPokemon={selectedPokemon}
+      setSelectedPokemon={setSelectedPokemon} />
     </>
   )
 }

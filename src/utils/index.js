@@ -121,6 +121,7 @@ export const pokemonTypeColors = {
 
 export function getPokedexNumber(index) {
     return index + 1
+   
 }
 
 export function getFullPokedexNumber(index) {
