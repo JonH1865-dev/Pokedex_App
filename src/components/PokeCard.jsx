@@ -115,6 +115,7 @@ export default function PokeCard(props) {
                 pp: moveData.pp,
                 priority: moveData.priority,
                 learnedBy: moveData.learned_by_pokemon,
+                generation: moveData.generation
             };
     
             setSkill(skillData);
@@ -209,34 +210,74 @@ export default function PokeCard(props) {
             skill.accuracy !== undefined ||
             skill.power !== undefined) && (
             <div className="stat-item">
-                {skill.accuracy !== undefined && <h3>Accuracy: {skill.accuracy}</h3>}
-                {skill.power !== undefined && <h3>Power: {skill.power}</h3>}
-                {skill.pp !== undefined && <h3>PP: {skill.pp}</h3>}
-                {skill.priority !== undefined && <h3>Priority: {skill.priority}</h3>}
+                {skill.accuracy !== undefined && skill.accuracy !== null && <h3>Accuracy: {skill.accuracy}</h3>}
+                {skill.power !== undefined && skill.power !== null && <h3>Power: {skill.power}</h3>}
+                {skill.pp !== undefined && skill.pp !== null && <h3>PP: {skill.pp}</h3>}
+                {skill.priority !== undefined && skill.priority !== null && <h3>Priority: {skill.priority}</h3>}
             </div>
         )}
 
-        {/*  Scrollable Pokémon List */}
-        {Array.isArray(skill.learnedBy) && skill.learnedBy.length > 0 && (
+        {/* {Move Generation} */}
+        {skill.generation && skill.generation.name && (
             <div>
-                <h3>Pokémon that Learn This Move:</h3>
-                <div className="pokemon-list-scrollable">
-                    {skill.learnedBy.map((poke, index) => (
-                        <button 
-                            key={index}
-                            className="button-card pokemon-move"
-                            onClick={() => {console.log("Selected Pokémon:", poke.name);
-                                
-                                setSelectedPokemon(getPokemonIndex(poke.name));
-                                setSkill(null)}}
-                                
-                        >
-                            {capitalizeFirstLetter(poke.name)}
-                        </button>
-                    ))}
-                </div>
+                {skill.generation.name === 'generation-i' && <h3>Generation Introduced: Gen 1</h3>}
+                {skill.generation.name === 'generation-ii' && <h3>Generation Introduced: Gen 2</h3>}
+                {skill.generation.name === 'generation-iii' && <h3>Generation Introduced: Gen 3</h3>}
+                {skill.generation.name === 'generation-iv' && <h3>Generation Introduced: Gen 4</h3>}
+                {skill.generation.name === 'generation-v' && <h3>Generation Introduced: Gen 5</h3>}
+                {skill.generation.name === 'generation-vi' && <h3>Generation Introduced: Gen 6</h3>}
+                {skill.generation.name === 'generation-vii' && <h3>Generation Introduced: Gen 7</h3>}
+                {skill.generation.name === 'generation-viii' && <h3>Generation Introduced: Gen 8</h3>}
+                {skill.generation.name === 'generation-ix' && <h3>Generation Introduced: Gen 9</h3>}
             </div>
         )}
+
+{/*  Scrollable Pokémon List */}
+{Array.isArray(skill.learnedBy) && skill.learnedBy.length > 0 && (
+    <div>
+        <h3>Pokémon that Learn This Move:</h3>
+        <div className="pokemon-list-scrollable">
+            {skill.learnedBy
+                .filter((learnedByObj) => {
+                    //console.log("Checking Pokémon:", learnedByObj.name); 
+
+                    // Case-insensitive check
+                    const existsInList = pokemonList.some(
+                        (name) => name.toLowerCase() === learnedByObj.name.toLowerCase()
+                    );
+
+                    //console.log(`Exists in pokemonList? ${existsInList}`); 
+                    return existsInList;
+                }) // Filter Pokémon that exist in pokemonList
+                .map((learnedByObj, learnedByIndex) => (
+                    <button 
+                        key={learnedByIndex}
+                        className="button-card pokemon-move"
+                        onClick={() => {
+                            console.log("Selected Pokémon:", learnedByObj.name);
+                            
+                            const pokemonIndex = getPokemonIndex(learnedByObj.name);
+                            if (pokemonIndex !== null) {
+                                setSelectedPokemon(pokemonIndex);
+                            } else {
+                                console.error("Error: Pokémon not found in the list.");
+                            }
+
+                            setSkill(null);
+                        }}
+                    >
+                        {capitalizeFirstLetter(learnedByObj.name)}
+                    </button>
+                ))
+            }
+        </div>
+    </div>
+)}
+
+
+
+
+
     </Modal>
 )}
 
@@ -298,14 +339,6 @@ export default function PokeCard(props) {
                 <h3>Moves</h3>
 <div className="pokemon-move-grid">
     {moves
-        // ?.slice() // Create a shallow copy
-        // .filter(moveObj => 
-        //     moveObj.version_group_details.some(
-        //         version => version.version_group.name === "firered-leafgreen" 
-        //         || version.version_group.name === "emerald" 
-        //         || version.version_group.name
-        //     )
-        // ) // Filter moves by version name
         .sort((a, b) => a.move.name.localeCompare(b.move.name)) // Sort alphabetically
         .map((moveObj, moveIndex) => (
             <button 
