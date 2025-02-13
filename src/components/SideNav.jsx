@@ -26,7 +26,10 @@ export default function SideNav(props){
                 <button onClick={handleToggleMenu} className="open-nav-button">
                 <i className="fa-solid fa-arrow-left-long"></i>
                 </button>
-                <h1 className="text-gradient">Pokédex</h1>
+                <img 
+        className='default-img' 
+        src={`/logo/Pokédex_logo.png`}/>
+                {/* <h1 className="text-gradient">Pokédex</h1> */}
             </div>
             <input placeholder="E.g. 001 or Bulba..." value={searchValue}  onChange={(e) => {
                 setSearchValue(e.target.value)
