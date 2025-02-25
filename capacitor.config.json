@@ -1,0 +1,8 @@
+{
+  "appId": "io.ionic.pokedex",
+  "appName": "pokedex",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "cordova": {}
+}

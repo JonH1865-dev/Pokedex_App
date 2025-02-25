@@ -274,7 +274,7 @@ h3 {
 
   nav {
     display: flex;
-    position: left;
+    position: sticky;
     width: fit-content;
     min-width: 200px;
 
