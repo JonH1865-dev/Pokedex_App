@@ -110,10 +110,11 @@ export default function TypeCard({ type }) {
                             style={{
                                 color: pokemonTypeColors?.[selectedType.toLowerCase()]?.color || "black",
                                 background: pokemonTypeColors?.[selectedType.toLowerCase()]?.background || "gray",
+                                width: "200px",
                                 padding: "10px",
                                 borderRadius: "8px",
                                 textAlign: "center",
-                                fontSize: "20px",
+                                fontSize: "25px",
                                 fontWeight: "bold",
                             }}
                         >

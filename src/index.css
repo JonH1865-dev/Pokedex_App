@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* padding: 1rem; */
   position: relative;
   max-width: 800px;
   margin: 0 auto;
@@ -70,7 +69,6 @@ nav {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
   background: var(--background-primary);
   z-index: 10;
 }
@@ -93,7 +91,6 @@ nav h1 {
 
 nav input {
   font-size: 0.8rem;
-  /* padding: 0.25rem; */
 }
 
 h3 {
@@ -120,7 +117,7 @@ h3 {
 
 .nav-card-selected {
   background: var(--background-muted);
-  border: 1px solid (--border-primary)
+  border: 1px solid var(--border-primary)
 }
 
 .nav-card p:first-of-type {
@@ -130,8 +127,6 @@ h3 {
 .poke-card {
   padding: 2rem;
   width: 100%;
-  /* border-radius: var(--border-radius-large);
-  border: 1px solid var(--border-secondary); */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -164,6 +159,50 @@ h3 {
   font-weight: 600;
 }
 
+.close-button {
+  position: absolute;
+  top: 5px;  /* Give it a little more space from the top */
+  right: 15px;  /* Right position for close button */
+  width: 32px; 
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #ccc7c7;
+  border-radius: 50%;
+  transition: background 0.2s ease-in-out;
+}
+
+.close-button:hover {
+  background: rgba(0, 0, 0, 0.1); /* Light hover effect */
+  color: red;
+}
+
+.form-card {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  background-color: var(--background-muted);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.form-card:hover {
+  color: slategray;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .stats-card {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -192,7 +231,6 @@ h3 {
 .pokemon-move p {
   margin: 0 auto;
 }
-
 
 .pokemon-move {
   width: 100%;
@@ -223,14 +261,13 @@ h3 {
   background: var(--background-muted);
   opacity: 0.8;
   z-index: 99;
-  border: none;
   width: 100%;
   box-shadow: unset;
+  pointer-events: all;  /* Ensures the overlay blocks interactions */
 }
 
-.modal-underlay:hover {
-  transform: translate(0);
-  box-shadow: unset;
+.modal-underlay.hidden {
+  pointer-events: none;  /* Blocks interactions when modal is hidden */
 }
 
 .modal-content {
@@ -243,23 +280,20 @@ h3 {
   border-radius: var(--border-radius-large);
   border: 1px solid var(--border-primary);
   background: var(--background-primary);
-  padding: 1rem;
+  padding: 1.5rem 1rem 1rem; /* Increased top padding to avoid overlap */
   display: flex;
   flex-direction: column;
-  /* align-items: center;
-  justify-content: center; */
   gap: 1rem;
-
 }
+
 .pokemon-list-scrollable {
-  max-height: 300px;  /* Adjust height as needed */
-  overflow-y: auto;   /* Enables vertical scrolling */
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px;
 }
-
 
 @media (min-width: 640px) {
   #root {
@@ -277,7 +311,6 @@ h3 {
     position: sticky;
     width: fit-content;
     min-width: 200px;
-
   }
 
   nav:not(.open) {

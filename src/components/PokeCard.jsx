@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { getFullPokedexNumber, getPokedexNumber, pokemonList } from "../utils"
+import { getFullPokedexNumber, getPokedexNumber, pokemonList, pokemonFormList } from "../utils"
 import  TypeCard  from "./TypeCard"
 import Modal from "./Modal"
+import FormCard from "./FormCard"
 
 export default function PokeCard(props) {
     const {selectedPokemon, setSelectedPokemon} = props
@@ -12,6 +13,7 @@ export default function PokeCard(props) {
     const [pokemonAbility, setPokemonAbility] = useState(null)
     const [loadingAbility, setLoadingAbility] = useState(false)
     const [type, setType] = useState(null)
+    const [showFormModal, setShowFormModal] = useState(false); // State for FormCard modal
 
     const {name, height, abilities, stats, types, moves, sprites, cries} = data || {}
 
@@ -26,6 +28,16 @@ export default function PokeCard(props) {
         audio.play().catch(error => console.error("Audio playback failed:", error))
 
     }
+
+  
+    const formButton = name && pokemonFormList.includes(capitalizeFirstLetter(name)) ? (
+        <button className="button-card" onClick={() => setShowFormModal(true)}>Forms</button>
+    ) : null;
+    
+    const showPokedexNumber = selectedPokemon <= 1025 ? ( 
+        <h4>#{getFullPokedexNumber(selectedPokemon)}</h4>
+    ): null;
+    
 
     function capitalizeFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1)
@@ -294,7 +306,8 @@ export default function PokeCard(props) {
 
         
             <div>
-                <h4>#{getFullPokedexNumber(selectedPokemon)}</h4>
+                {/* <h4>#{getFullPokedexNumber(selectedPokemon)}</h4> */}
+                {showPokedexNumber}
                 <h2>{capitalizeFirstLetter(name)}</h2>
             </div>
             <div className='type-container'>
@@ -318,14 +331,30 @@ export default function PokeCard(props) {
                     )
                 })}
             </div>
-            {/* <div>
-                <h3>Height: {height}</h3>
-            </div> */}
-            <div>
+          
+                <div>
+            
                 <button className="play-cry-button" onClick={() => playCry(cries.latest)}>
                Click to Hear Cry <i className="fa-solid fa-volume-high"></i>
                 </button>                
                  </div>
+                 {formButton}
+                 {showFormModal && (
+    <Modal handleCloseModal={() => setShowFormModal(false)}>
+        <FormCard 
+            selectedPokemon={selectedPokemon} 
+            setSelectedPokemon={setSelectedPokemon} 
+            capitalizeFirstLetter={capitalizeFirstLetter}
+            name={name}
+            handleCloseModal={() => setShowFormModal(false)}
+            
+            
+        />
+    </Modal>
+)}
+
+
+
             <div>
                 <h3>Stats</h3>
                 <div className='stats-card'>
